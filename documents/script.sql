@@ -3,6 +3,9 @@ USE aula30;
 
 CREATE TABLE pessoa(
   
-
+    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    idade INTEGER NOT NULL,
+    email VARCHAR(255) NOT NULL
 
 )
