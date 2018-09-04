@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Pessoa;
 
@@ -26,6 +27,7 @@ public class RelatorioPessoas extends javax.swing.JFrame {
 
         menuAcoes = new javax.swing.JPopupMenu();
         itemMenuExcluir = new javax.swing.JMenuItem();
+        itemMenuAlterar = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
 
@@ -36,6 +38,14 @@ public class RelatorioPessoas extends javax.swing.JFrame {
             }
         });
         menuAcoes.add(itemMenuExcluir);
+
+        itemMenuAlterar.setText("Alterar");
+        itemMenuAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuAlterarActionPerformed(evt);
+            }
+        });
+        menuAcoes.add(itemMenuAlterar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,39 +82,59 @@ public class RelatorioPessoas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
-        
-        if(evt.getButton() == 3){
-            
+
+        if (evt.getButton() == 3) {
+
             menuAcoes.show(table, evt.getX(), evt.getY());
-            
+
         }
-        
+
     }//GEN-LAST:event_tableMouseClicked
 
     private void itemMenuExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuExcluirActionPerformed
-        
-        int selectedRow = table.getSelectedRow();
-        if(selectedRow >= 0){
-            
-            Pessoa p = listPessoa.get(selectedRow);
-            
-            Connection con = Conexao.get();
-            String sql = "delete from pessoa where id ="+p.getId();
-            
-            try{
-                
-                PreparedStatement prep = con.prepareStatement(sql);
-                prep.execute();
-                buscarRegistros();
-                updateTable();
-                
-            }catch(SQLException sqle){
-                sqle.printStackTrace();
+
+        int r = JOptionPane.showConfirmDialog(null, "Deseja excluir o item?",
+                 "Confirmação", JOptionPane.YES_NO_OPTION);
+
+        if (r == JOptionPane.YES_OPTION) {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow >= 0) {
+
+                Pessoa p = listPessoa.get(selectedRow);
+
+                Connection con = Conexao.get();
+                String sql = "delete from pessoa where id =" + p.getId();
+
+                try {
+
+                    PreparedStatement prep = con.prepareStatement(sql);
+                    prep.execute();
+                    buscarRegistros();
+                    updateTable();
+
+                } catch (SQLException sqle) {
+                    sqle.printStackTrace();
+                }
+
             }
+        }
+
+
+    }//GEN-LAST:event_itemMenuExcluirActionPerformed
+
+    private void itemMenuAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAlterarActionPerformed
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow >= 0) {
+            
+            Pessoa obj = listPessoa.get(selectedRow);
+            AlterarPessoa ap = new AlterarPessoa(null,
+                    true, obj);
+            ap.setVisible(true);
+            buscarRegistros();
+            updateTable();
             
         }
-        
-    }//GEN-LAST:event_itemMenuExcluirActionPerformed
+    }//GEN-LAST:event_itemMenuAlterarActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -139,6 +169,7 @@ public class RelatorioPessoas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem itemMenuAlterar;
     private javax.swing.JMenuItem itemMenuExcluir;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu menuAcoes;
@@ -177,22 +208,22 @@ public class RelatorioPessoas extends javax.swing.JFrame {
         String sql = "select * from pessoa";
 
         try {
-            
+
             PreparedStatement prep = con.prepareStatement(sql);
             ResultSet result = prep.executeQuery();
-            
+
             listPessoa.clear();
-            while(result.next()){
-                
+            while (result.next()) {
+
                 Pessoa p = new Pessoa();
                 p.setId(result.getInt("id"));
                 p.setNome(result.getString("nome"));
                 p.setIdade(result.getInt("idade"));
                 p.setEmail(result.getString("email"));
-                
+
                 listPessoa.add(p);
             }
-            
+
         } catch (SQLException sqle) {
 
         }
