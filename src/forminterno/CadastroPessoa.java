@@ -1,14 +1,10 @@
 
-package telas;
+package forminterno;
 
-import banco.Conexao;
 import dao.PessoaDao;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import modelo.Pessoa;
 
-public class CadastroPessoa extends javax.swing.JFrame {
+public class CadastroPessoa extends javax.swing.JInternalFrame {
 
     public CadastroPessoa() {
         initComponents();
@@ -18,25 +14,17 @@ public class CadastroPessoa extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        txtNome = new javax.swing.JTextField();
-        txtIdade = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JButton();
+        txtEmail = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtIdade = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setText("Nome:");
-
-        txtNome.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-
-        txtIdade.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-
-        jLabel2.setText("Idade:");
-
-        txtEmail.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        setClosable(true);
+        setIconifiable(true);
+        setTitle("Cadastro de Cliente");
 
         jLabel3.setText("Email:");
 
@@ -46,6 +34,16 @@ public class CadastroPessoa extends javax.swing.JFrame {
                 btnSalvarActionPerformed(evt);
             }
         });
+
+        txtEmail.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+
+        jLabel2.setText("Idade:");
+
+        txtIdade.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+
+        txtNome.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+
+        jLabel1.setText("Nome:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -64,7 +62,7 @@ public class CadastroPessoa extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 216, Short.MAX_VALUE)
+                        .addGap(0, 238, Short.MAX_VALUE)
                         .addComponent(btnSalvar)))
                 .addContainerGap())
         );
@@ -92,76 +90,45 @@ public class CadastroPessoa extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        
+
         String nome = txtNome.getText();
         String idade = txtIdade.getText();
         String email = txtEmail.getText();
-        
+
         if(nome.isEmpty() ||
-                idade.isEmpty() ||
-                email.isEmpty()){
-            
+            idade.isEmpty() ||
+            email.isEmpty()){
+
             System.out.println("Preencha todos os valores");
-            
+
         }else{
-            
+
             try{
-                
+
                 Pessoa p = new Pessoa();
                 p.setNome(nome);
                 p.setIdade(Integer.parseInt(idade));
                 p.setEmail(email);
-                
+
                 PessoaDao pd = new PessoaDao();
                 if(pd.salvar(p)){
                     System.out.println("Registro inserido com sucesso!");
                 }else{
                     System.err.println("Erro de registro");
                 }
-                
+
                 clear();
-                
+
             }catch(NumberFormatException nfe){
-                
+
                 System.out.println("Erro de conversao de valores");
-                
+
             }
-            
+
         }
-        
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CadastroPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CadastroPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CadastroPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CadastroPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CadastroPessoa().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalvar;

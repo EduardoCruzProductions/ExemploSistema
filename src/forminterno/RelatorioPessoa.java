@@ -1,22 +1,19 @@
-package telas;
 
-import banco.Conexao;
+package forminterno;
+
 import dao.PessoaDao;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Pessoa;
+import telas.AlterarPessoa;
 
-public class RelatorioPessoas extends javax.swing.JFrame {
+public class RelatorioPessoa extends javax.swing.JInternalFrame {
 
     private List<Pessoa> listPessoa = new ArrayList<>();
-
-    public RelatorioPessoas() {
+    
+    public RelatorioPessoa() {
         initComponents();
         buscarRegistros();
         updateTable();
@@ -48,7 +45,11 @@ public class RelatorioPessoas extends javax.swing.JFrame {
         });
         menuAcoes.add(itemMenuAlterar);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        setToolTipText("Relatório de Pessoa");
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -72,11 +73,11 @@ public class RelatorioPessoas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
         );
 
         pack();
@@ -89,81 +90,49 @@ public class RelatorioPessoas extends javax.swing.JFrame {
             menuAcoes.show(table, evt.getX(), evt.getY());
 
         }
-
+        
     }//GEN-LAST:event_tableMouseClicked
 
     private void itemMenuExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuExcluirActionPerformed
 
-        int r = JOptionPane.showConfirmDialog(null, "Deseja excluir o item?",
-                 "Confirmação", JOptionPane.YES_NO_OPTION);
+        int r = JOptionPane.showConfirmDialog(this, "Deseja excluir o item?",
+            "Confirmação", JOptionPane.YES_NO_OPTION);
 
         if (r == JOptionPane.YES_OPTION) {
             int selectedRow = table.getSelectedRow();
             if (selectedRow >= 0) {
 
                 Pessoa p = listPessoa.get(selectedRow);
-                
+
                 PessoaDao pd = new PessoaDao();
                 if(pd.excluir(p.getId())){
                     System.out.println("Registro excluido com sucesso!");
                 }else{
                     System.err.println("Erro ao excluir o registro!");
                 }
-                
+
                 buscarRegistros();
                 updateTable();
 
             }
         }
 
-
     }//GEN-LAST:event_itemMenuExcluirActionPerformed
 
     private void itemMenuAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAlterarActionPerformed
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
-            
+
             Pessoa obj = listPessoa.get(selectedRow);
             AlterarPessoa ap = new AlterarPessoa(null,
-                    true, obj);
+                true, obj);
             ap.setVisible(true);
             buscarRegistros();
             updateTable();
-            
+
         }
     }//GEN-LAST:event_itemMenuAlterarActionPerformed
 
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RelatorioPessoas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RelatorioPessoas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RelatorioPessoas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RelatorioPessoas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new RelatorioPessoas().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem itemMenuAlterar;
@@ -172,7 +141,7 @@ public class RelatorioPessoas extends javax.swing.JFrame {
     private javax.swing.JPopupMenu menuAcoes;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
-
+    
     private void updateTable() {
 
         DefaultTableModel modelo = new DefaultTableModel() {
