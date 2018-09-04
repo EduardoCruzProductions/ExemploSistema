@@ -2,6 +2,7 @@
 package telas;
 
 import banco.Conexao;
+import dao.PessoaDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -111,26 +112,18 @@ public class CadastroPessoa extends javax.swing.JFrame {
                 p.setIdade(Integer.parseInt(idade));
                 p.setEmail(email);
                 
-                //CREATE -> INSERT
-                
-                Connection con = Conexao.get();
-                String sql = "insert into pessoa(nome,idade,email) values(?,?,?)";
-                PreparedStatement prep = con.prepareStatement(sql);
-                prep.setString(1, p.getNome());
-                prep.setInt(2, p.getIdade());
-                prep.setString(3, p.getEmail());
-                
-                prep.execute();
+                PessoaDao pd = new PessoaDao();
+                if(pd.salvar(p)){
+                    System.out.println("Registro inserido com sucesso!");
+                }else{
+                    System.err.println("Erro de registro");
+                }
                 
                 clear();
                 
             }catch(NumberFormatException nfe){
                 
                 System.out.println("Erro de conversao de valores");
-                
-            }catch(SQLException sqle){
-                
-                System.out.println("Erro de SQL: "+sqle.getMessage());
                 
             }
             

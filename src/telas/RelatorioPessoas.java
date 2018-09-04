@@ -1,6 +1,7 @@
 package telas;
 
 import banco.Conexao;
+import dao.PessoaDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -101,20 +102,16 @@ public class RelatorioPessoas extends javax.swing.JFrame {
             if (selectedRow >= 0) {
 
                 Pessoa p = listPessoa.get(selectedRow);
-
-                Connection con = Conexao.get();
-                String sql = "delete from pessoa where id =" + p.getId();
-
-                try {
-
-                    PreparedStatement prep = con.prepareStatement(sql);
-                    prep.execute();
-                    buscarRegistros();
-                    updateTable();
-
-                } catch (SQLException sqle) {
-                    sqle.printStackTrace();
+                
+                PessoaDao pd = new PessoaDao();
+                if(pd.excluir(p.getId())){
+                    System.out.println("Registro excluido com sucesso!");
+                }else{
+                    System.err.println("Erro ao excluir o registro!");
                 }
+                
+                buscarRegistros();
+                updateTable();
 
             }
         }
@@ -204,29 +201,8 @@ public class RelatorioPessoas extends javax.swing.JFrame {
 
     private void buscarRegistros() {
 
-        Connection con = Conexao.get();
-        String sql = "select * from pessoa";
-
-        try {
-
-            PreparedStatement prep = con.prepareStatement(sql);
-            ResultSet result = prep.executeQuery();
-
-            listPessoa.clear();
-            while (result.next()) {
-
-                Pessoa p = new Pessoa();
-                p.setId(result.getInt("id"));
-                p.setNome(result.getString("nome"));
-                p.setIdade(result.getInt("idade"));
-                p.setEmail(result.getString("email"));
-
-                listPessoa.add(p);
-            }
-
-        } catch (SQLException sqle) {
-
-        }
+        PessoaDao pd = new PessoaDao();
+        listPessoa = pd.buscar();
 
     }
 

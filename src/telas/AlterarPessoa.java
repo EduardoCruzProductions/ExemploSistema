@@ -2,6 +2,7 @@
 package telas;
 
 import banco.Conexao;
+import dao.PessoaDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -128,19 +129,13 @@ public class AlterarPessoa extends javax.swing.JDialog {
                 
                 if(!objPessoaAntigo.equals(novaPessoa)){
                     
-                    Connection con = Conexao.get();
+                    PessoaDao pd = new PessoaDao();
                     
-                    String sql = "update pessoa set "
-                            + "nome=?,"
-                            + "idade=?,"
-                            + "email=? "
-                            + "where id ="+novaPessoa.getId();
-                    
-                    PreparedStatement prep = con.prepareStatement(sql);
-                    prep.setString(1, novaPessoa.getNome());
-                    prep.setInt(2, novaPessoa.getIdade());
-                    prep.setString(3, novaPessoa.getEmail());
-                    prep.execute();
+                    if(pd.alterar(novaPessoa)){
+                        System.out.println("Alteração feita tom sucesso!");
+                    }else{
+                        System.err.println("Erro de registro!");
+                    }
                     
                     this.dispose();
                     
@@ -153,10 +148,6 @@ public class AlterarPessoa extends javax.swing.JDialog {
             }catch(NumberFormatException nfe){
                 
                 System.out.println("Erro de conversao de valores");
-                
-            }catch(SQLException sqle){
-                
-                System.out.println("Erro de SQL: "+sqle.getMessage());
                 
             }
             
