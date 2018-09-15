@@ -11,7 +11,7 @@ public class Conexao {
    //editavel
    private static final String local = "localhost";
    private static final String user = "root";
-   private static final String pwd = "mysql";
+   private static final String pwd = "12345";
    private static final String database = "aula30";
    
    public static Connection get(){
