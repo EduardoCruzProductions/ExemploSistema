@@ -5,11 +5,20 @@ import forminterno.CadastroVenda;
 import forminterno.RelatorioPessoa;
 import forminterno.RelatorioProduto;
 import forminterno.RelatorioVenda;
+import modelo.Usuario;
 
 public class MainTela extends javax.swing.JFrame {
 
+    private Usuario usuario = new Usuario();
+    
     public MainTela() {
         initComponents();
+    }
+    
+    public MainTela(Usuario usuario){
+        initComponents();
+        this.usuario = usuario;
+        lbNomeUsuario.setText(usuario.getNome());
     }
 
     //exemplo adicionando internalframe manualmente
@@ -25,6 +34,7 @@ public class MainTela extends javax.swing.JFrame {
         cadastroPessoa1 = new forminterno.CadastroPessoa();
         cadastroProduto1 = new forminterno.CadastroProduto();
         jDesktopPane1 = new javax.swing.JDesktopPane();
+        lbNomeUsuario = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -50,8 +60,10 @@ public class MainTela extends javax.swing.JFrame {
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 405, Short.MAX_VALUE)
+            .addGap(0, 393, Short.MAX_VALUE)
         );
+
+        lbNomeUsuario.setText("jLabel1");
 
         jMenu3.setText("Movimento");
 
@@ -120,10 +132,16 @@ public class MainTela extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jDesktopPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(lbNomeUsuario)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jDesktopPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbNomeUsuario))
         );
 
         pack();
@@ -222,5 +240,6 @@ public class MainTela extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JLabel lbNomeUsuario;
     // End of variables declaration//GEN-END:variables
 }

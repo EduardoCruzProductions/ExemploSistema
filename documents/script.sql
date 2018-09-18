@@ -41,3 +41,12 @@ CREATE TABLE itens_venda(
     CONSTRAINT fk_itens_venda_venda FOREIGN KEY (id_venda) REFERENCES venda(id)
 
 );
+
+CREATE TABLE usuario(
+    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    login VARCHAR(100) NOT NULL,
+    senha VARCHAR(50) NOT NULL
+);
+
+INSERT INTO usuario(nome,login,senha) values ('Administrador','admin','123');
